@@ -5,20 +5,24 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.quarkus.runtime.ShutdownEvent;
 import io.quarkus.runtime.StartupEvent;
 
 @ApplicationScoped
 public class SolveTask1 {
-    private static final Logger LOGGER = Logger.getLogger("ListenerBean");
+    private static final Logger LOGGER = LoggerFactory.getLogger(SolveTask1.class);
 
-    void onStart(@Observes StartupEvent ev) {               
+    void onStart(@Observes StartupEvent ev) throws FileNotFoundException {               
         LOGGER.info("The application is starting...");
+
+        LOGGER.info("Found {} increases in the input data!", solve("/input.txt"));
     }
 
     void onStop(@Observes ShutdownEvent ev) {               
@@ -31,9 +35,15 @@ public class SolveTask1 {
     }
 
     public Integer sonarSweepCountIncreases(List<Integer> sonarData) {
+        Integer result = 0;
 
+        for(int i = 1; i < sonarData.size(); i++) { 
+            if(sonarData.get(i) > sonarData.get(i-1)) {
+                result++;
+            }
+        }
         
-        return 0;
+        return result;
     }
 
     public List<Integer> readData(String filename) throws FileNotFoundException {
