@@ -16,10 +16,8 @@ public class Day1 {
 
         @Override
         public int run(String... args) throws Exception {
-            System.out.println("Do startup logic here");
             Quarkus.waitForExit();
             return 0;
         }
-    }
-    
+    }   
 }
