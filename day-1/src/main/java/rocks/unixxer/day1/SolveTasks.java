@@ -16,22 +16,29 @@ import io.quarkus.runtime.ShutdownEvent;
 import io.quarkus.runtime.StartupEvent;
 
 @ApplicationScoped
-public class SolveTask1 {
-    private static final Logger LOGGER = LoggerFactory.getLogger(SolveTask1.class);
+public class SolveTasks {
+    private static final Logger LOGGER = LoggerFactory.getLogger(SolveTasks.class);
 
     void onStart(@Observes StartupEvent ev) throws FileNotFoundException {               
         LOGGER.info("The application is starting...");
 
-        LOGGER.info("Found {} increases in the input data!", solve("/input.txt"));
+        LOGGER.info("Found {} increases in the input data!", solveTask1("/input.txt"));
+        LOGGER.info("Found {} increases in the input data!", solveTask2("/input.txt"));
+
     }
 
     void onStop(@Observes ShutdownEvent ev) {               
         LOGGER.info("The application is stopping...");
     }
 
-    public Integer solve(String filename) throws FileNotFoundException {
+    public Integer solveTask1(String filename) throws FileNotFoundException {
         List<Integer> readData = readData(filename);
         return sonarSweepCountIncreases(readData);
+    }
+
+    public Integer solveTask2(String filename) throws FileNotFoundException {
+        List<Integer> readData = readData(filename);
+        return sonarSweepCountIncreases(reduceNoise(readData, 3));
     }
 
     public Integer sonarSweepCountIncreases(List<Integer> sonarData) {
@@ -46,10 +53,22 @@ public class SolveTask1 {
         return result;
     }
 
+    public List<Integer> reduceNoise(List<Integer> data, Integer windowSize) {
+        List<Integer> noiseReduced = new ArrayList<>();
+
+        for(int i = windowSize - 1; i < data.size(); i++) { 
+
+            Integer noiseReduction = data.get(i) + data.get(i - 1) + data.get(i - 2);
+            noiseReduced.add(noiseReduction);
+        }
+
+        return noiseReduced;
+    }
+
     public List<Integer> readData(String filename) throws FileNotFoundException {
         ArrayList<Integer> result = new ArrayList<>();
 
-        try (Scanner s = new Scanner(new InputStreamReader(SolveTask1.class.getResourceAsStream(filename)))) {
+        try (Scanner s = new Scanner(new InputStreamReader(SolveTasks.class.getResourceAsStream(filename)))) {
             while (s.hasNext()) {
                 result.add(s.nextInt());
             }

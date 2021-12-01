@@ -1,7 +1,7 @@
 package rocks.unixxer;
 
 import io.quarkus.test.junit.QuarkusTest;
-import rocks.unixxer.day1.SolveTask1;
+import rocks.unixxer.day1.SolveTasks;
 
 import org.junit.jupiter.api.Test;
 
@@ -13,15 +13,21 @@ import java.util.List;
 import javax.inject.Inject;
 
 @QuarkusTest
-public class Day1SolveTask1Test {
+public class Day1SolveTasksTest {
 
     @Inject
-    SolveTask1 solveTask1;
+    SolveTasks solveTask1;
 
     @Test
-    public void testSolve() throws FileNotFoundException {
-        Integer solve = solveTask1.solve("/input.txt");
+    public void testSolveTask1() throws FileNotFoundException {
+        Integer solve = solveTask1.solveTask1("/input.txt");
         assertEquals(7, solve);
+    }
+
+    @Test
+    public void testSolveTask2() throws FileNotFoundException {
+        Integer solve = solveTask1.solveTask2("/input.txt");
+        assertEquals(5, solve);
     }
 
     @Test
