@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
+import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,16 +20,27 @@ import io.quarkus.runtime.StartupEvent;
 public class SolveTasks {
     private static final Logger LOGGER = LoggerFactory.getLogger(SolveTasks.class);
 
+    @Inject
+    SonarDataEmitter sonarDataEmitter;
+
+    @Inject
+    SonarDataConsumer sonarDataConsumer;
+
     void onStart(@Observes StartupEvent ev) throws FileNotFoundException {               
         LOGGER.info("The application is starting...");
 
-        LOGGER.info("Found {} increases in the input data!", solveTask1("/input.txt"));
-        LOGGER.info("Found {} increases in the input data!", solveTask2("/input.txt"));
+        sonarDataEmitter.emitData();
 
+        LOGGER.info("#Puzzle1 - Found {} increases in the input data!", solveTask1("/input.txt"));
+        LOGGER.info("#Puzzle2 - Found {} increases in the input data!", solveTask2("/input.txt"));
     }
 
     void onStop(@Observes ShutdownEvent ev) {               
         LOGGER.info("The application is stopping...");
+
+        LOGGER.info("Puzzle 1 Result: {}", sonarDataConsumer.getDepthIncreasedCount());
+        LOGGER.info("Puzzle 2 Result: {}", sonarDataConsumer.getNRDepthIncreasedCount());
+
     }
 
     public Integer solveTask1(String filename) throws FileNotFoundException {
@@ -57,7 +69,6 @@ public class SolveTasks {
         List<Integer> noiseReduced = new ArrayList<>();
 
         for(int i = windowSize - 1; i < data.size(); i++) { 
-
             Integer noiseReduction = data.get(i) + data.get(i - 1) + data.get(i - 2);
             noiseReduced.add(noiseReduction);
         }
