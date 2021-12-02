@@ -15,7 +15,6 @@ import io.vertx.mutiny.core.eventbus.EventBus;
 public class SonarDataEmitter {
     private static final Logger LOGGER = LoggerFactory.getLogger(SonarDataEmitter.class);
 
-
     @Inject
     EventBus bus; 
 
