@@ -21,25 +21,11 @@ public class SubmarineControllerTest {
 
     @Test
     public void testSubmarine() throws FileNotFoundException {
-        List<String> readData = readData("/input.txt");
-        
-        readData.forEach((cmd) -> {
-            submarineController.command(cmd);
-        });
+        assertEquals(15, submarineController.getSubmarine().getPositionTask1());
+        assertEquals(10, submarineController.getSubmarine().getDepthTask1());
 
         assertEquals(15, submarineController.getSubmarine().getPosition());
-        assertEquals(10, submarineController.getSubmarine().getDepth());
+        assertEquals(60, submarineController.getSubmarine().getDepth());
 
-    }
-
-    public List<String> readData(String filename) throws FileNotFoundException {
-        List<String> result = new ArrayList<>();
-
-        try (Scanner s = new Scanner(new InputStreamReader(SolveTasks.class.getResourceAsStream(filename)))) {
-            while (s.hasNext()) {
-                result.add(s.nextLine());
-            }
-            return result;
-        }
     }
 }

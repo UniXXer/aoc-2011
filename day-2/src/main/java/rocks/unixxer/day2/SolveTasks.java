@@ -40,11 +40,11 @@ public class SolveTasks {
     }
 
     public Integer solveTask1() {
-        return submarineController.getSubmarine().getDepth() * submarineController.getSubmarine().getPosition();
+        return submarineController.getSubmarine().getDepthTask1() * submarineController.getSubmarine().getPositionTask1();
     }
 
     public Integer solveTask2() {
-        return 0;
+        return submarineController.getSubmarine().getDepth() * submarineController.getSubmarine().getPosition();
     }
 
     public void readData(String filename) throws FileNotFoundException {
