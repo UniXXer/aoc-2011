@@ -17,10 +17,13 @@ public class DiagnosticReportConsumerTest {
     DiagnosticReportConsumer diagnosticReportConsumer;
 
     @Test
-    public void testConsumer() throws FileNotFoundException {
+    public void testConsumer_puzzle1() throws FileNotFoundException {
         assertEquals(22, diagnosticReportConsumer.getGammaRate());
         assertEquals(9, diagnosticReportConsumer.getEpsilonrate());
+    }
 
+    @Test
+    public void testConsumer_puzzle2() throws FileNotFoundException {
         assertEquals(23, diagnosticReportConsumer.findOxygenGeneratorRating());
     }
 }
