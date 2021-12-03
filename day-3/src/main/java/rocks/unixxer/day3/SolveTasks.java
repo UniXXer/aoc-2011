@@ -24,6 +24,9 @@ public class SolveTasks {
     @Inject
     EventBus bus; 
 
+    @Inject
+    DiagnosticReportConsumer diagnosticReportConsumer;
+
     void onStart(@Observes StartupEvent ev) throws FileNotFoundException {               
         LOGGER.info("The application is starting...");
         readData("/input.txt");
@@ -37,7 +40,7 @@ public class SolveTasks {
     }
 
     public Integer solveTask1() {
-        return 0;
+        return diagnosticReportConsumer.getGammaRate() * diagnosticReportConsumer.getEpsilonrate();
     }
 
     public Integer solveTask2() {

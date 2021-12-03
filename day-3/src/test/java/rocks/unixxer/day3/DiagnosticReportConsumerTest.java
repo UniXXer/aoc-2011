@@ -19,6 +19,8 @@ public class DiagnosticReportConsumerTest {
     @Test
     public void testConsumer() throws FileNotFoundException {
         assertEquals(22, diagnosticReportConsumer.getGammaRate());
+        assertEquals(9, diagnosticReportConsumer.getEpsilonrate());
 
+        assertEquals(23, diagnosticReportConsumer.findOxygenGeneratorRating());
     }
 }
