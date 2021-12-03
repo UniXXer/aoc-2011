@@ -44,7 +44,7 @@ public class SolveTasks {
     }
 
     public Integer solveTask2() {
-        return 0;
+        return diagnosticReportConsumer.findOxygenGeneratorRating() *diagnosticReportConsumer.findCo2ScrubberRating();
     }
 
     public void readData(String filename) throws FileNotFoundException {

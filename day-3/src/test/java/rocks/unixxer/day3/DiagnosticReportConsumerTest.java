@@ -25,5 +25,6 @@ public class DiagnosticReportConsumerTest {
     @Test
     public void testConsumer_puzzle2() throws FileNotFoundException {
         assertEquals(23, diagnosticReportConsumer.findOxygenGeneratorRating());
+        assertEquals(10, diagnosticReportConsumer.findCo2ScrubberRating());
     }
 }

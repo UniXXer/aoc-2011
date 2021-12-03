@@ -88,6 +88,14 @@ public class DiagnosticReportConsumer {
         return Integer.valueOf(oxygenRatingString, 2);
     }
 
+    public Integer findCo2ScrubberRating() {
+        List<String> commads = new ArrayList<>(allCommands);
+
+        String co2ScrubberRatingString = reduceCo2ScrubberRating(commads, 0);
+        
+        return Integer.valueOf(co2ScrubberRatingString, 2);
+    }
+
     private String reduceOxygenGeneratorRating(final List<String> commads, final int round) {
         int sumOfOne = commads.stream()
             .map((cmd) -> (cmd.charAt(round) == '1' ? 1 : 0))
@@ -106,6 +114,29 @@ public class DiagnosticReportConsumer {
 
         if(subCommands.size() > 1) {
             return reduceOxygenGeneratorRating(subCommands, (round+1));
+        } 
+
+        return subCommands.get(0);
+    }
+
+    private String reduceCo2ScrubberRating(final List<String> commads, final int round) {
+        int sumOfOne = commads.stream()
+            .map((cmd) -> (cmd.charAt(round) == '1' ? 1 : 0))
+            .mapToInt(Integer::intValue)
+            .sum();
+        
+        boolean keepOne = (double) sumOfOne >= ( ((double)commads.size())/2.0);
+
+        List<String> subCommands = commads.stream().filter((cmd) -> {
+            if(!keepOne) {
+                return cmd.charAt(round) == '1';
+            } else {
+                return cmd.charAt(round) == '0';
+            }
+        }).collect(Collectors.toList());
+
+        if(subCommands.size() > 1) {
+            return reduceCo2ScrubberRating(subCommands, (round+1));
         } 
 
         return subCommands.get(0);
