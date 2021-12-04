@@ -20,7 +20,7 @@ public class BingoGameTest {
     public void testConsumer_puzzle1() throws FileNotFoundException {
         assertEquals(3, bingoGame.getBoards().size());
         
-        assertEquals(4512, bingoGame.play());
+        assertEquals(4512, bingoGame.getResultPuzzle1());
     }
 
     //@Test

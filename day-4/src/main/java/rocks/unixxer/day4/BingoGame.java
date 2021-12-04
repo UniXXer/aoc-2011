@@ -10,6 +10,7 @@ public class BingoGame {
 
     private String randomNumbers;
     private List<BingoBoard> boards = new ArrayList<>();
+    private int result_puzzle1 = -1;
 
     public void parseBoard(String line) {
         if(line.isEmpty()) {
@@ -30,7 +31,8 @@ public class BingoGame {
                 b.mark(i);
 
                 if(b.won()) {
-                    return b.calculateUnmarked() * i;
+                    result_puzzle1 = b.calculateUnmarked() * i;
+                    return result_puzzle1;
                 }
             }
         }
@@ -44,5 +46,9 @@ public class BingoGame {
     
     public List<BingoBoard> getBoards() {
         return boards;
+    }
+
+    public int getResultPuzzle1() {
+        return result_puzzle1;
     }
 }
