@@ -23,8 +23,8 @@ public class BingoGameTest {
         assertEquals(4512, bingoGame.getResultPuzzle1());
     }
 
-    //@Test
+    @Test
     public void testConsumer_puzzle2() throws FileNotFoundException {
-        
+        assertEquals(1924, bingoGame.getResultPuzzle2());
     }
 }

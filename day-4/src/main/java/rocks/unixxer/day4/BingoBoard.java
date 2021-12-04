@@ -8,6 +8,8 @@ public class BingoBoard {
 
     private int hits = 0;
 
+    private boolean won = false;
+
     public void addLine(String line) {
         String[] split = line.split(" ");
 
@@ -45,7 +47,7 @@ public class BingoBoard {
                     continue line;
                 }
             }
-
+            won = true;
             return true;
         }
 
@@ -55,7 +57,7 @@ public class BingoBoard {
                     continue column;
                 }
             }
-
+            won = true;
             return true;
         }
 
@@ -74,5 +76,9 @@ public class BingoBoard {
         }
 
         return result;
+    }
+
+    public boolean isWon() {
+        return won;
     }
 }

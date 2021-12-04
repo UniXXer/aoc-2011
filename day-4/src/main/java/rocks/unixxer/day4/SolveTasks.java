@@ -28,6 +28,8 @@ public class SolveTasks {
         LOGGER.info("The application is starting...");
         readData("/input.txt");
 
+        game.play();
+
         LOGGER.info("Puzzle 1 Result: {}", solveTask1());
         LOGGER.info("Puzzle 2 Result: {}", solveTask2());
     }
@@ -37,11 +39,11 @@ public class SolveTasks {
     }
 
     public Integer solveTask1() {
-        return game.play();
+        return game.getResultPuzzle1();
     }
 
     public Integer solveTask2() {
-        return 0;
+        return game.getResultPuzzle2();
     }
 
     public void readData(String filename) throws FileNotFoundException {

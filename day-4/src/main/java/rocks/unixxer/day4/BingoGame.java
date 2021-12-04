@@ -11,6 +11,8 @@ public class BingoGame {
     private String randomNumbers;
     private List<BingoBoard> boards = new ArrayList<>();
     private int result_puzzle1 = -1;
+    private int result_puzzle2 = -1;
+    private int boardsWon = 0;
 
     public void parseBoard(String line) {
         if(line.isEmpty()) {
@@ -21,23 +23,30 @@ public class BingoGame {
         }
     }
 
-    public int play() {
+    public void play() {
         String[] numbers = randomNumbers.split(",");
             
         for(String number : numbers) {
             int i = Integer.parseInt(number);
 
             for(BingoBoard b : boards) {
-                b.mark(i);
+                if(!b.isWon()) {
+                    b.mark(i);
 
-                if(b.won()) {
-                    result_puzzle1 = b.calculateUnmarked() * i;
-                    return result_puzzle1;
+                    if(b.won()) {
+                        if(result_puzzle1 == -1) {
+                            result_puzzle1 = b.calculateUnmarked() * i;
+                        }
+                            boardsWon++;
+
+                        if(boardsWon == boards.size()) {
+                            result_puzzle2  = b.calculateUnmarked() * i;
+                            return;
+                        }
+                    }
                 }
             }
         }
-
-        return -1;
     }
     
     public void setRandomNumbers(String numbers) {
@@ -50,5 +59,9 @@ public class BingoGame {
 
     public int getResultPuzzle1() {
         return result_puzzle1;
+    }
+
+    public int getResultPuzzle2() {
+        return result_puzzle2;
     }
 }
