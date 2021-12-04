@@ -22,22 +22,22 @@ public class SolveTasks {
     private static final Logger LOGGER = LoggerFactory.getLogger(SolveTasks.class);
 
     @Inject
-    EventBus bus; 
+    BingoGame game;
 
     void onStart(@Observes StartupEvent ev) throws FileNotFoundException {               
         LOGGER.info("The application is starting...");
         readData("/input.txt");
-    }
-
-    void onStop(@Observes ShutdownEvent ev) {               
-        LOGGER.info("The application is stopping...");
 
         LOGGER.info("Puzzle 1 Result: {}", solveTask1());
         LOGGER.info("Puzzle 2 Result: {}", solveTask2());
     }
 
+    void onStop(@Observes ShutdownEvent ev) {               
+        LOGGER.info("The application is stopping...");
+    }
+
     public Integer solveTask1() {
-        return 0;
+        return game.play();
     }
 
     public Integer solveTask2() {
@@ -46,11 +46,16 @@ public class SolveTasks {
 
     public void readData(String filename) throws FileNotFoundException {
         try (Scanner s = new Scanner(new InputStreamReader(SolveTasks.class.getResourceAsStream(filename)))) {
+            int line = 0;
             while (s.hasNext()) {
-                bus.publish("diagnosticReports", s.nextLine());
+                if(line == 0) {
+                    game.setRandomNumbers(s.nextLine());
+                }
+
+                game.parseBoard(s.nextLine());
+
+                line++;
             }
         }
-
-        LOGGER.info("diagnosticReports finished...");
     }
 }
