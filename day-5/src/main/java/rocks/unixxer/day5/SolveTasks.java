@@ -28,7 +28,6 @@ public class SolveTasks {
         LOGGER.info("The application is starting...");
         readData("/input.txt");
 
-
         LOGGER.info("Puzzle 1 Result: {}", solveTask1());
         LOGGER.info("Puzzle 2 Result: {}", solveTask2());
     }
@@ -42,8 +41,9 @@ public class SolveTasks {
         return mapOfVents.getMostDangerousAreasCount();
     }
 
-    public Integer solveTask2() {
-        return 0;
+    public Long solveTask2() {
+        mapOfVents.markLinesWithDiagonal();
+        return mapOfVents.getMostDangerousAreasCount();
     }
 
     public void readData(String filename) throws FileNotFoundException {

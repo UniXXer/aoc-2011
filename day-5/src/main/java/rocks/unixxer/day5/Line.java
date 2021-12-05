@@ -12,6 +12,8 @@ public class Line {
 
     private List<Point> line = new ArrayList<>();
 
+    private boolean diagonal = false;
+
     public Line(Point p1, Point p2) {
         from = p1;
         to = p2;
@@ -32,10 +34,28 @@ public class Line {
                 .boxed()
                 .map((x) -> new Point(x, from.getY()))
                 .collect(Collectors.toList());
+        } else {
+            diagonal = true;
+
+            line = new ArrayList<>();
+            line.add(from);
+            int steps = Math.max(from.getX(), to.getX()) - Math.min(from.getX(), to.getX());
+            boolean xAdd = from.getX() < to.getX();
+            boolean yAdd = from.getY() < to.getY();
+
+            for(int i = 1; i < steps; i++) {
+                line.add(new Point(xAdd ? from.getX() + i : from.getX() - i, yAdd ? from.getY() + i : from.getY() - i));    
+            }
+
+            line.add(to);
         }
     }    
 
     public List<Point> getLine() {
         return line;
+    }
+
+    public boolean isDiagonal() {
+        return diagonal;
     }
 }

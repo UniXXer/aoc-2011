@@ -14,15 +14,15 @@ import io.quarkus.test.junit.QuarkusTest;
 public class MapOfVentsTest {
 
     @Inject
-    MapOfVents mapOfVents;
+    SolveTasks solveTasks;
 
     @Test
     public void testConsumer_puzzle1() throws FileNotFoundException {
-        assertEquals(5, mapOfVents.getMostDangerousAreasCount());
+        assertEquals(5, solveTasks.solveTask1());
     }
 
     @Test
     public void testConsumer_puzzle2() throws FileNotFoundException {
-        //assertEquals(1924, bingoGame.getResultPuzzle2());
+        assertEquals(12, solveTasks.solveTask2());
     }
 }

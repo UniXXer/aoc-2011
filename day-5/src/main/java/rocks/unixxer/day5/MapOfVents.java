@@ -24,6 +24,23 @@ public class MapOfVents {
     }
 
     public void markLines() {
+        field = new HashMap<>();
+        for(Line line : lines) {
+            if(!line.isDiagonal()) {
+                line.getLine().forEach((p) -> {
+                        Integer hits = field.get(p);
+                        if(hits == null) {
+                            field.put(p, 1);
+                        } else {
+                            field.put(p, hits+1);
+                        }
+                    });
+            }
+        }
+    }
+
+    public void markLinesWithDiagonal() {
+        field = new HashMap<>();
         for(Line line : lines) {
             line.getLine().forEach((p) -> {
                     Integer hits = field.get(p);
