@@ -21,6 +21,8 @@ import io.vertx.mutiny.core.eventbus.EventBus;
 public class SolveTasks {
     private static final Logger LOGGER = LoggerFactory.getLogger(SolveTasks.class);
 
+    @Inject
+    MapOfVents mapOfVents;
 
     void onStart(@Observes StartupEvent ev) throws FileNotFoundException {               
         LOGGER.info("The application is starting...");
@@ -35,8 +37,9 @@ public class SolveTasks {
         LOGGER.info("The application is stopping...");
     }
 
-    public Integer solveTask1() {
-        return 0;
+    public Long solveTask1() {
+        mapOfVents.markLines();
+        return mapOfVents.getMostDangerousAreasCount();
     }
 
     public Integer solveTask2() {
@@ -45,13 +48,9 @@ public class SolveTasks {
 
     public void readData(String filename) throws FileNotFoundException {
         try (Scanner s = new Scanner(new InputStreamReader(SolveTasks.class.getResourceAsStream(filename)))) {
-            int line = 0;
+           
             while (s.hasNext()) {
-                if(line == 0) {
-                }
-
-
-                line++;
+                mapOfVents.parseLine(s.nextLine());
             }
         }
     }

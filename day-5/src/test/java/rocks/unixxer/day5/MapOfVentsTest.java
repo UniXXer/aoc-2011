@@ -11,15 +11,14 @@ import org.junit.jupiter.api.Test;
 import io.quarkus.test.junit.QuarkusTest;
 
 @QuarkusTest
-public class BingoGameTest {
+public class MapOfVentsTest {
 
-    
+    @Inject
+    MapOfVents mapOfVents;
 
     @Test
     public void testConsumer_puzzle1() throws FileNotFoundException {
-        //assertEquals(3, bingoGame.getBoards().size());
-        
-        //assertEquals(4512, bingoGame.getResultPuzzle1());
+        assertEquals(5, mapOfVents.getMostDangerousAreasCount());
     }
 
     @Test
