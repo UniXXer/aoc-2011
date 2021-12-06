@@ -21,6 +21,8 @@ import io.vertx.mutiny.core.eventbus.EventBus;
 public class SolveTasks {
     private static final Logger LOGGER = LoggerFactory.getLogger(SolveTasks.class);
 
+    String input;
+
     void onStart(@Observes StartupEvent ev) throws FileNotFoundException {               
         LOGGER.info("The application is starting...");
         readData("/input.txt");
@@ -33,19 +35,22 @@ public class SolveTasks {
         LOGGER.info("The application is stopping...");
     }
 
-    public Long solveTask1() {
-        return 0L;
+    public int solveTask1() {
+
+        LaternenfishSimulator laternenfishSimulator = new LaternenfishSimulator();
+        return laternenfishSimulator.calculatePopulation(input, 80);
     }
 
-    public Long solveTask2() {
-        return 0L;
+    public int solveTask2() {
+        LaternenfishSimulator laternenfishSimulator = new LaternenfishSimulator();
+        return 0;
     }
 
     public void readData(String filename) throws FileNotFoundException {
         try (Scanner s = new Scanner(new InputStreamReader(SolveTasks.class.getResourceAsStream(filename)))) {
            
             while (s.hasNext()) {
-                s.nextLine();
+                input = s.nextLine();
             }
         }
     }

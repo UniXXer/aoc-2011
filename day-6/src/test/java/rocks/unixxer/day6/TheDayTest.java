@@ -11,18 +11,18 @@ import org.junit.jupiter.api.Test;
 import io.quarkus.test.junit.QuarkusTest;
 
 @QuarkusTest
-public class MapOfVentsTest {
+public class TheDayTest {
 
     @Inject
     SolveTasks solveTasks;
 
     @Test
     public void testConsumer_puzzle1() throws FileNotFoundException {
-        assertEquals(5, solveTasks.solveTask1());
+        assertEquals(5934, solveTasks.solveTask1());
     }
 
     @Test
     public void testConsumer_puzzle2() throws FileNotFoundException {
-        assertEquals(12, solveTasks.solveTask2());
+        assertEquals(0, solveTasks.solveTask2());
     }
 }
