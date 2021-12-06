@@ -1,12 +1,13 @@
 package rocks.unixxer.day6;
 
 import java.util.List;
+import java.util.stream.LongStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class LaternenfishSimulator {
 
-    public Integer calculatePopulation(String startState, int days) {
+    public int calculatePopulation(String startState, int days) {
         List<Laternenfish> population = new ArrayList<>();
 
         String[] fishes = startState.split(",");
@@ -26,6 +27,30 @@ public class LaternenfishSimulator {
         }
 
         return population.size();
+    }
+
+    public Long calculatePopulation2(String startState, int days) {
+        long[] fishByAge = new long[9];
+
+        String[] split = startState.split(",");
+        for(int i = 0; i < split.length; i++) {
+            fishByAge[Integer.parseInt(split[i])] ++;
+        }
+
+        for(int i = 0; i < days; i++) {
+            long[] nextPopulation = new long[9];
+
+            nextPopulation[8] = fishByAge[0];
+            nextPopulation[6] = fishByAge[0];
+        
+            for(int j = 7; j >=0; j--) {
+                nextPopulation[j] += fishByAge[j + 1];
+            }
+
+            fishByAge = nextPopulation;
+        }
+
+        return LongStream.of(fishByAge).sum();
     }
     
 }

@@ -41,9 +41,9 @@ public class SolveTasks {
         return laternenfishSimulator.calculatePopulation(input, 80);
     }
 
-    public int solveTask2() {
+    public long solveTask2() {
         LaternenfishSimulator laternenfishSimulator = new LaternenfishSimulator();
-        return 0;
+        return laternenfishSimulator.calculatePopulation2(input, 256);
     }
 
     public void readData(String filename) throws FileNotFoundException {
