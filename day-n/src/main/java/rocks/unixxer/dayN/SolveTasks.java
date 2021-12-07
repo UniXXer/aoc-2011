@@ -2,8 +2,6 @@ package rocks.unixxer.dayN;
 
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -15,7 +13,6 @@ import org.slf4j.LoggerFactory;
 
 import io.quarkus.runtime.ShutdownEvent;
 import io.quarkus.runtime.StartupEvent;
-import io.vertx.mutiny.core.eventbus.EventBus;
 
 @ApplicationScoped
 public class SolveTasks {

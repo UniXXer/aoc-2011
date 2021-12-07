@@ -2,8 +2,6 @@ package rocks.unixxer.day7;
 
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -15,11 +13,15 @@ import org.slf4j.LoggerFactory;
 
 import io.quarkus.runtime.ShutdownEvent;
 import io.quarkus.runtime.StartupEvent;
-import io.vertx.mutiny.core.eventbus.EventBus;
 
 @ApplicationScoped
 public class SolveTasks {
     private static final Logger LOGGER = LoggerFactory.getLogger(SolveTasks.class);
+
+    String input; 
+
+    @Inject
+    CrabSimulator crabSimulator;
 
     void onStart(@Observes StartupEvent ev) throws FileNotFoundException {               
         LOGGER.info("The application is starting...");
@@ -34,7 +36,7 @@ public class SolveTasks {
     }
 
     public int solveTask1() {
-        return 0;
+        return crabSimulator.cheapestHorizontalMatch(input);
     }
 
     public long solveTask2() {
@@ -45,7 +47,7 @@ public class SolveTasks {
         try (Scanner s = new Scanner(new InputStreamReader(SolveTasks.class.getResourceAsStream(filename)))) {
            
             while (s.hasNext()) {
-                s.nextLine();
+                input = s.nextLine();
             }
         }
     }
