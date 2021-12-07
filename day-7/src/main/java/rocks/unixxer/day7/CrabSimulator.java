@@ -17,10 +17,10 @@ public class CrabSimulator {
 
         Supplier<IntStream> streamSupplier = () -> listOfStrings.stream().mapToInt((s) -> Integer.parseInt(s));
 
-        int maxPosition = streamSupplier.get().max().getAsInt();
-        int minPosition = streamSupplier.get().min().getAsInt();
+        var maxPosition = streamSupplier.get().max().getAsInt();
+        var minPosition = streamSupplier.get().min().getAsInt();
 
-        Optional<PosiitonCost> cheapestMatch = IntStream.range(minPosition, maxPosition + 1)
+        Optional<PositionCost> cheapestMatch = IntStream.range(minPosition, maxPosition + 1)
             .mapToObj((targetPosition) -> {
                 int targetPositionCosts = streamSupplier.get().map((position) -> {
                         var width = Math.abs(targetPosition - position);
@@ -32,7 +32,7 @@ public class CrabSimulator {
                     })
                     .sum();
 
-                return new PosiitonCost(targetPosition, targetPositionCosts);
+                return new PositionCost(targetPosition, targetPositionCosts);
             }).sorted((pc1, pc2) -> pc1.costs.compareTo(pc2.costs))
             .findFirst();
 
@@ -40,7 +40,7 @@ public class CrabSimulator {
     }
 
 
-    public record PosiitonCost(Integer position, Integer costs) {
+    public record PositionCost(Integer position, Integer costs) {
     }
     
 }
