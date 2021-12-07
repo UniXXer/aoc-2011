@@ -12,7 +12,7 @@ import javax.enterprise.context.ApplicationScoped;
 public class CrabSimulator {
 
 
-    public Integer cheapestHorizontalMatch(String inputPositions) {
+    public Integer cheapestHorizontalMatch(String inputPositions, boolean expensiveMode) {
         final List<String> listOfStrings = Arrays.asList(inputPositions.split(","));
 
         Supplier<IntStream> streamSupplier = () -> listOfStrings.stream().mapToInt((s) -> Integer.parseInt(s));
@@ -22,7 +22,14 @@ public class CrabSimulator {
 
         Optional<PosiitonCost> cheapestMatch = IntStream.range(minPosition, maxPosition + 1)
             .mapToObj((targetPosition) -> {
-                int targetPositionCosts = streamSupplier.get().map((position) -> Math.abs(targetPosition - position))
+                int targetPositionCosts = streamSupplier.get().map((position) -> {
+                        var width = Math.abs(targetPosition - position);
+                        if(!expensiveMode) {
+                            return width;
+                        }
+
+                        return (width * (width+1)) / 2;
+                    })
                     .sum();
 
                 return new PosiitonCost(targetPosition, targetPositionCosts);

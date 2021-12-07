@@ -36,11 +36,11 @@ public class SolveTasks {
     }
 
     public int solveTask1() {
-        return crabSimulator.cheapestHorizontalMatch(input);
+        return crabSimulator.cheapestHorizontalMatch(input, false);
     }
 
     public long solveTask2() {
-        return 0;
+        return crabSimulator.cheapestHorizontalMatch(input, true);
     }
 
     public void readData(String filename) throws FileNotFoundException {
