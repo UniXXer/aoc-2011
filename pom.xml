@@ -130,5 +130,6 @@
     <module>day-5</module>
     <module>day-6</module>
     <module>day-7</module>
+    <module>day-8</module>
   </modules>
 </project>
