@@ -42,7 +42,7 @@ public class SolveTasks {
     }
 
     public long solveTask2() {
-        return 0;
+        return sevenSegments.decodeDIgits(inputs);
     }
 
     public void readData(String filename) throws FileNotFoundException {
