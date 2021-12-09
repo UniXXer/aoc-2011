@@ -36,11 +36,11 @@ public class SolveTasks {
     }
 
     public int solveTask1() {
-        return theVulcano.findLowPoints();
+        return theVulcano.calculateRiskPoints();
     }
 
     public long solveTask2() {
-        return 0;
+        return theVulcano.basinSizes();
     }
 
     public void readData(String filename) throws FileNotFoundException {
