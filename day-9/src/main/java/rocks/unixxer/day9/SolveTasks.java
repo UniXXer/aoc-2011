@@ -2,6 +2,8 @@ package rocks.unixxer.day9;
 
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -18,6 +20,9 @@ import io.quarkus.runtime.StartupEvent;
 public class SolveTasks {
     private static final Logger LOGGER = LoggerFactory.getLogger(SolveTasks.class);
 
+    @Inject
+    TheVulcano theVulcano;
+
     void onStart(@Observes StartupEvent ev) throws FileNotFoundException {               
         LOGGER.info("The application is starting...");
         readData("/input.txt");
@@ -31,7 +36,7 @@ public class SolveTasks {
     }
 
     public int solveTask1() {
-        return 0;
+        return theVulcano.findLowPoints();
     }
 
     public long solveTask2() {
@@ -41,9 +46,13 @@ public class SolveTasks {
     public void readData(String filename) throws FileNotFoundException {
         try (Scanner s = new Scanner(new InputStreamReader(SolveTasks.class.getResourceAsStream(filename)))) {
            
+            List<String> lines = new ArrayList<>();
+
             while (s.hasNext()) {
-                s.nextLine();
+                lines.add(s.nextLine());
             }
+
+            theVulcano.parseLinesToHeightMap(lines);
         }
     }
 }
