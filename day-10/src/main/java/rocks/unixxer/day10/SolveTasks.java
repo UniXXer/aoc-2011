@@ -38,11 +38,11 @@ public class SolveTasks {
     }
 
     public int solveTask1() {
-        return navigationSubsystem.syntaxCheck(lines);
+        return navigationSubsystem.checkScore();
     }
 
     public long solveTask2() {
-        return 0;
+        return navigationSubsystem.autoCompleteScore();
     }
 
     public void readData(String filename) throws FileNotFoundException {
@@ -51,6 +51,8 @@ public class SolveTasks {
             while (s.hasNext()) {
                 lines.add(s.nextLine());
             }
+
+            navigationSubsystem.syntaxCheck(lines);
         }
     }
 }

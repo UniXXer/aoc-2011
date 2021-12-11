@@ -5,16 +5,31 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Deque;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class NavigationSubsystem {
 
-    public int syntaxCheck(List<String> lines) {
-        List<Chunk> errors = new ArrayList<>();
+    List<Chunk> errors;
+    List<Long> incompleteScores;
 
-        for(String line : lines) {
+    public int checkScore() {
+        return errors.stream().mapToInt((c) -> c.points()).sum();
+    }
+
+    public long autoCompleteScore() {
+        List<Long> sortedScores = incompleteScores.stream().sorted().collect(Collectors.toList());
+        
+        return sortedScores.get(sortedScores.size() / 2);
+    }
+
+    public void syntaxCheck(List<String> lines) {
+        errors = new ArrayList<>();
+        incompleteScores = new ArrayList<>();
+
+        outer: for(String line : lines) {
             Deque<Chunk> deque = new ArrayDeque<>();
 
             for(int i = 0; i < line.length(); i++) {
@@ -27,31 +42,39 @@ public class NavigationSubsystem {
 
                     if(!current.close().equals(aChar)) {
                         errors.add(Chunk.valueOfBracket(aChar));
-                        break;
+                        continue outer;
                     }
                 }
             }
-        }
 
-        return errors.stream().mapToInt((c) -> c.points()).sum();
+            // Incomplete
+            long score = 0;
+            while(deque.size() > 0) {            
+                Chunk nextChunk = deque.removeFirst();     
+                score = score * 5 + nextChunk.acPoints();   
+            }
+            incompleteScores.add(score);
+        }
     }
 
     public enum Chunk {
-        ROUND("(", ")", 3),
-        SQUARE("[", "]", 57),
-        CURLY("{", "}", 1197),
-        ANGLE("<", ">", 25137);
+        ROUND("(", ")", 3, 1),
+        SQUARE("[", "]", 57, 2),
+        CURLY("{", "}", 1197, 3),
+        ANGLE("<", ">", 25137, 4);
 
         static List<String> openBrackets = Arrays.asList(ROUND.open(), SQUARE.open(), CURLY.open(), ANGLE.open());
 
         private String open;
         private String close;
         private int points;
+        private int acPoints;
 
-        Chunk(String open, String close, int points) {
+        Chunk(String open, String close, int points, int ac) {
             this.open = open;
             this.close = close;
             this.points = points;
+            this.acPoints = ac;
         }
 
         public static boolean isOpenBracket(String b) {
@@ -68,6 +91,10 @@ public class NavigationSubsystem {
 
         public int points() {
             return points;
+        }
+
+        public int acPoints() {
+            return acPoints;
         }
 
         public static Chunk valueOfBracket(String b) {
