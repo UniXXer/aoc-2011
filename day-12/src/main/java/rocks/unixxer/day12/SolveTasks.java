@@ -18,6 +18,9 @@ import io.quarkus.runtime.StartupEvent;
 public class SolveTasks {
     private static final Logger LOGGER = LoggerFactory.getLogger(SolveTasks.class);
 
+    @Inject
+    CaveNavigator caveNavigator;
+
     void onStart(@Observes StartupEvent ev) throws FileNotFoundException {               
         LOGGER.info("The application is starting...");
         readData("/input.txt");
@@ -31,7 +34,7 @@ public class SolveTasks {
     }
 
     public int solveTask1() {
-        return 0;
+        return caveNavigator.findExits();
     }
 
     public long solveTask2() {
@@ -41,8 +44,8 @@ public class SolveTasks {
     public void readData(String filename) throws FileNotFoundException {
         try (Scanner s = new Scanner(new InputStreamReader(SolveTasks.class.getResourceAsStream(filename)))) {
            
-            while (s.hasNext()) {
-                s.nextLine();
+            while (s.hasNext()) { 
+                caveNavigator.addPath(s.nextLine());
             }
         }
     }
