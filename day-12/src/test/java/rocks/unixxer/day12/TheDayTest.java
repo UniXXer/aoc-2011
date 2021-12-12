@@ -23,6 +23,6 @@ public class TheDayTest {
 
     @Test
     public void testConsumer_puzzle2() throws FileNotFoundException {
-        assertEquals(0, solveTasks.solveTask2());
+        assertEquals(3509, solveTasks.solveTask2());
     }
 }

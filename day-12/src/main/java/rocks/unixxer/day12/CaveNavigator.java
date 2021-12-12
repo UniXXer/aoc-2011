@@ -19,13 +19,28 @@ public class CaveNavigator {
 
         allPaths = new ArrayList<>();
 
-        findNext(startPoint, new ArrayList<>());
+        findNext(startPoint, new ArrayList<>(), false, false);
 
         return allPaths.size();
     }
 
-    private void findNext(CavePoint cp, List<CavePoint> visited) {
+    public int findMoreExits() {
+        CavePoint startPoint = allPoints.get("start");
+
+        allPaths = new ArrayList<>();
+
+        findNext(startPoint, new ArrayList<>(), true, false);
+
+        return allPaths.size();
+    }
+
+    private void findNext(CavePoint cp, List<CavePoint> visited, boolean step2, boolean weHaveASecond) {
+        boolean nextWeHaveASecond = weHaveASecond;
         visited.add(cp);
+
+        if(step2 && !nextWeHaveASecond && cp.isSmall() && visited.stream().filter((cp2) -> cp.getName().equals(cp2.getName())).count() == 2) {
+            nextWeHaveASecond = true;
+        }
 
         if("end".equals(cp.getName())) {
             allPaths.add(visited);
@@ -33,12 +48,22 @@ public class CaveNavigator {
         }
 
         for(CavePoint next : cp.getNeighbours()) {
-            if(next.isSmall() && visited.contains(next)) {
-                continue;
+            if(!step2) {
+                if(next.isSmall() && visited.contains(next)) {
+                    continue;
+                }
+            } else {
+                if("start".equals(next.getName())) {
+                    continue;
+                }
+
+                if(next.isSmall() && visited.contains(next) && nextWeHaveASecond) {
+                    continue;
+                }
             }
 
             ArrayList<CavePoint> nextList = new ArrayList<>(visited);
-            findNext(next, nextList);
+            findNext(next, nextList, step2, nextWeHaveASecond);
         }
     }
 

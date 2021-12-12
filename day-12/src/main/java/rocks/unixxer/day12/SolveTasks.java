@@ -38,7 +38,7 @@ public class SolveTasks {
     }
 
     public long solveTask2() {
-        return 0;
+        return caveNavigator.findMoreExits();
     }
 
     public void readData(String filename) throws FileNotFoundException {
