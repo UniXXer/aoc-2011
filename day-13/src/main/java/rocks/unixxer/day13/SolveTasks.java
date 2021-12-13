@@ -34,7 +34,8 @@ public class SolveTasks {
     }
 
     public int solveTask1() {
-        return 0;
+        origami.fold(1);
+        return origami.getPoints().size();
     }
 
     public long solveTask2() {
@@ -42,6 +43,7 @@ public class SolveTasks {
     }
 
     public void readData(String filename) throws FileNotFoundException {
+        origami.reset();
         try (Scanner s = new Scanner(new InputStreamReader(SolveTasks.class.getResourceAsStream(filename)))) {
            
             while (s.hasNext()) {
