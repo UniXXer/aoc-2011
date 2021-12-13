@@ -18,6 +18,9 @@ import io.quarkus.runtime.StartupEvent;
 public class SolveTasks {
     private static final Logger LOGGER = LoggerFactory.getLogger(SolveTasks.class);
 
+    @Inject
+    OctopusParty octopusParty;
+
     void onStart(@Observes StartupEvent ev) throws FileNotFoundException {               
         LOGGER.info("The application is starting...");
         readData("/input.txt");
@@ -31,7 +34,7 @@ public class SolveTasks {
     }
 
     public int solveTask1() {
-        return 0;
+        return octopusParty.partyFlasher(100);
     }
 
     public long solveTask2() {
@@ -40,9 +43,10 @@ public class SolveTasks {
 
     public void readData(String filename) throws FileNotFoundException {
         try (Scanner s = new Scanner(new InputStreamReader(SolveTasks.class.getResourceAsStream(filename)))) {
-           
+            int lineNumber = 0;
             while (s.hasNext()) {
-                s.nextLine();
+                octopusParty.addLine(s.nextLine(), lineNumber);
+                lineNumber++;
             }
         }
     }
