@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import io.quarkus.runtime.ShutdownEvent;
 import io.quarkus.runtime.StartupEvent;
+import io.vertx.ext.web.impl.Origin;
 
 @ApplicationScoped
 public class SolveTasks {
@@ -39,6 +40,8 @@ public class SolveTasks {
     }
 
     public long solveTask2() {
+        origami.fold(-1);
+        origami.draw();
         return 0;
     }
 
