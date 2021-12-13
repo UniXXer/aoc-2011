@@ -26,6 +26,8 @@ public class SolveTasks {
         readData("/input.txt");
 
         LOGGER.info("Puzzle 1 Result: {}", solveTask1());
+
+        readData("/input.txt");
         LOGGER.info("Puzzle 2 Result: {}", solveTask2());
     }
 
@@ -34,20 +36,22 @@ public class SolveTasks {
     }
 
     public int solveTask1() {
-        return octopusParty.partyFlasher(100);
+        return octopusParty.partyFlasher(100, false);
     }
 
     public long solveTask2() {
-        return 0;
+        return octopusParty.partyFlasher(1000, true);
     }
 
     public void readData(String filename) throws FileNotFoundException {
+        octopusParty.reset();
         try (Scanner s = new Scanner(new InputStreamReader(SolveTasks.class.getResourceAsStream(filename)))) {
             int lineNumber = 0;
             while (s.hasNext()) {
                 octopusParty.addLine(s.nextLine(), lineNumber);
                 lineNumber++;
             }
+            LOGGER.info("Read {} lines.", lineNumber);
         }
     }
 }

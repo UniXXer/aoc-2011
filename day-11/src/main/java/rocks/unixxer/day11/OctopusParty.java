@@ -1,16 +1,27 @@
 package rocks.unixxer.day11;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
+import org.jboss.logging.Logger;
 
 @ApplicationScoped
 public class OctopusParty {
+    @Inject
+    Logger log;
 
     private int[][] octos = new int[10][10];
 
-    public int partyFlasher(int partyRounds) {
+    public void reset() {
+        octos = new int[10][10];
+    }
+
+    public int partyFlasher(int partyRounds, boolean calcAll) {
         int flashes = 0;
 
-        for(int pr = 0; pr < partyRounds; pr++) {
+        for(int pr = 1; pr <= partyRounds; pr++) {
+
+            int flashAmount = flashes;
 
             // STEP 1 increase energy
             for(int x = 0; x < 10; x++) {
@@ -27,6 +38,11 @@ public class OctopusParty {
                 for(int x = 0; x < 10; x++) {
                     for(int y = 0; y < 10; y++) {
                         int curr = octos[x][y];
+
+                        if(curr < 0 ) {
+                            log.error("ERROR: ");
+                        }
+
                         if(curr > 9) {
                             flashes++;
                             flashed = true;
@@ -47,6 +63,14 @@ public class OctopusParty {
                 }
 
             } while(flashed);
+
+            int flashedDudes = flashes - flashAmount;            
+            if(flashedDudes == 100) {
+                log.info("Flashed " + flashedDudes + " in round " + pr);
+                if(calcAll) {
+                    return pr;
+                }
+            } 
         }
 
         return flashes;
