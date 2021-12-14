@@ -16,13 +16,21 @@ public class TheDayTest {
     @Inject
     SolveTasks solveTasks;
 
+    @Inject
+    PolymerTemplate polymerTemplate;
+
     @Test
     public void testConsumer_puzzle1() throws FileNotFoundException {
-        assertEquals(0, solveTasks.solveTask1());
+        assertEquals(1588, solveTasks.solveTask1());
+    }
+
+    @Test
+    public void testGrow() throws FileNotFoundException {        
+        assertEquals(3073, polymerTemplate.getThePolymer().length());
     }
 
     @Test
     public void testConsumer_puzzle2() throws FileNotFoundException {
-        assertEquals(0, solveTasks.solveTask2());
+        assertEquals(2188189693529L, solveTasks.solveTask2());
     }
 }

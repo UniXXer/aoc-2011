@@ -18,11 +18,22 @@ import io.quarkus.runtime.StartupEvent;
 public class SolveTasks {
     private static final Logger LOGGER = LoggerFactory.getLogger(SolveTasks.class);
 
+    @Inject
+    PolymerTemplate polymerTemplate;
+
     void onStart(@Observes StartupEvent ev) throws FileNotFoundException {               
         LOGGER.info("The application is starting...");
+        
+        polymerTemplate.reset();
         readData("/input.txt");
+        polymerTemplate.growPolymer(10);
 
         LOGGER.info("Puzzle 1 Result: {}", solveTask1());
+
+        //polymerTemplate.reset();
+        //readData("/input.txt");
+        //polymerTemplate.growPolymer(40);
+
         LOGGER.info("Puzzle 2 Result: {}", solveTask2());
     }
 
@@ -30,19 +41,22 @@ public class SolveTasks {
         LOGGER.info("The application is stopping...");
     }
 
-    public int solveTask1() {
-        return 0;
+    public long solveTask1() {        
+        return polymerTemplate.analysePolymer();
     }
 
     public long solveTask2() {
-        return 0;
+        return polymerTemplate.analysePolymer();
     }
 
     public void readData(String filename) throws FileNotFoundException {
         try (Scanner s = new Scanner(new InputStreamReader(SolveTasks.class.getResourceAsStream(filename)))) {
+
+            int lineNumber = 0;
            
             while (s.hasNext()) {
-                s.nextLine();
+                polymerTemplate.parseInput(s.nextLine(), lineNumber);                
+                lineNumber++;
             }
         }
     }
