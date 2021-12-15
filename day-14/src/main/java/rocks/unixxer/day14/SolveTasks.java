@@ -23,16 +23,8 @@ public class SolveTasks {
 
     void onStart(@Observes StartupEvent ev) throws FileNotFoundException {               
         LOGGER.info("The application is starting...");
-        
-        polymerTemplate.reset();
-        readData("/input.txt");
-        polymerTemplate.growPolymer(10);
 
         LOGGER.info("Puzzle 1 Result: {}", solveTask1());
-
-        //polymerTemplate.reset();
-        //readData("/input.txt");
-        //polymerTemplate.growPolymer(40);
 
         LOGGER.info("Puzzle 2 Result: {}", solveTask2());
     }
@@ -41,11 +33,17 @@ public class SolveTasks {
         LOGGER.info("The application is stopping...");
     }
 
-    public long solveTask1() {        
+    public long solveTask1() throws FileNotFoundException {  
+        polymerTemplate.reset();
+        readData("/input.txt");
+        polymerTemplate.growPolymer(10);      
         return polymerTemplate.analysePolymer();
     }
 
-    public long solveTask2() {
+    public long solveTask2() throws FileNotFoundException {
+        polymerTemplate.reset();
+        readData("/input.txt");
+        polymerTemplate.growPolymer(40);
         return polymerTemplate.analysePolymer();
     }
 

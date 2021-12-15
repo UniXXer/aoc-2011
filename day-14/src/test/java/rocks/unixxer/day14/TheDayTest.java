@@ -25,8 +25,9 @@ public class TheDayTest {
     }
 
     @Test
-    public void testGrow() throws FileNotFoundException {        
-        assertEquals(3073, polymerTemplate.getThePolymer().length());
+    public void testGrow() throws FileNotFoundException {     
+        solveTasks.solveTask1();   
+        assertEquals(3073, polymerTemplate.getTheElements().values().stream().mapToLong((l) -> Long.valueOf(l)).sum());
     }
 
     @Test

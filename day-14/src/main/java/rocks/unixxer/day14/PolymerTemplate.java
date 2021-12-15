@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -12,49 +11,79 @@ import javax.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public class PolymerTemplate {
 
-    private String thePolymer;
     private Map<String, String> insertions = new HashMap<>();
+    private Map<String, Long> polymerParts = new HashMap<>();
+    private Map<String, Long> elements = new HashMap<>();
 
     public void reset() {
-        thePolymer = null;
         insertions = new HashMap<>();
+        polymerParts = new HashMap<>();
+        elements = new HashMap<>();
     }
 
-    public long analysePolymer() {
-        List<Entry<Integer, Long>> collect = thePolymer.chars()
-            .boxed()
-            .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
-            .entrySet()
-            .stream()
+    public long analysePolymer() {        
+        List<Entry<String, Long>> collect = elements.entrySet().stream()
             .sorted((e1, e2) -> e1.getValue().compareTo(e2.getValue()))
             .collect(Collectors.toList());
 
         long leastCommon = collect.get(0).getValue();    
-        long mostCommon = collect.get(collect.size() - 1).getValue(); 
+        long mostCommon = collect.get(collect.size() - 1).getValue();
 
         return mostCommon - leastCommon;
     }
 
     public void growPolymer(int steps) {        
+
         for(int i = 1; i <= steps; i++) {
-            StringBuilder sb = new StringBuilder();
-            String first;
-            String second = "";
-            for(int j = 0; j < thePolymer.length() - 1; j++) {
-                first = thePolymer.charAt(j) + "";
-                second = thePolymer.charAt(j+1) + "";
-                
-                sb.append(first);
-                sb.append(insertions.get(first + second));                
+            Map<String, Long> newPolymerParts = new HashMap<>();
+            for(Entry<String, Long> e : polymerParts.entrySet()) {
+                String insertation = insertions.get(e.getKey());
+                insertPolymer(newPolymerParts, e.getKey().charAt(0) + insertation, e.getValue());
+                insertPolymer(newPolymerParts, insertation + e.getKey().charAt(1), e.getValue());
+                addElement(insertation, e.getValue());
             }
-            sb.append(second);
-            thePolymer = sb.toString();
+
+            polymerParts = newPolymerParts;
+            
+        }
+    }
+
+    private void insertPolymer(Map<String, Long> polymerParts, String polymer, long amount) {
+        Long currentAmount = polymerParts.get(polymer);
+
+        if(currentAmount == null) {
+            polymerParts.put(polymer, amount);
+        } else {
+            polymerParts.put(polymer, currentAmount + amount);
+        }
+    }
+
+    private void addElement(String s, long count) {
+        Long current = elements.get(s);
+
+        if(current == null) {
+            elements.put(s, count);
+        } else {
+            elements.put(s, count + current);
         }
     }
 
     public void parseInput(String s, int lineNumber) {
         if(lineNumber == 0) {
-            thePolymer = s;
+            addElement(s.charAt(0) + "", 1);
+            for(int i = 1; i < s.length(); i++) {
+                addElement(s.charAt(i) + "", 1);
+                
+                String part = s.charAt(i - 1) + "" + s.charAt(i) + "";
+                Long long1 = polymerParts.get(part);
+
+                if(long1 == null) {
+                    polymerParts.put(part, 1L);
+                } else {
+                    polymerParts.put(part, long1 + 1L);
+                }
+            }
+
         } else {
             if(s.indexOf(" -> ") > 0) {
                 String[] split = s.split(" -> ");
@@ -63,8 +92,13 @@ public class PolymerTemplate {
         }
     }
 
-    public String getThePolymer() {
-        return thePolymer;
+    public Map<String, Long> getThePolymer() {
+        return polymerParts;
+    }
+
+    public Map<String, Long> getTheElements() {
+        return elements;
     }
     
+    public record Amount(String s, long amount) {}
 }
