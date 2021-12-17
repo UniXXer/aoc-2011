@@ -2,6 +2,8 @@ package rocks.unixxer.day15;
 
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -18,6 +20,9 @@ import io.quarkus.runtime.StartupEvent;
 public class SolveTasks {
     private static final Logger LOGGER = LoggerFactory.getLogger(SolveTasks.class);
 
+    @Inject
+    Cave cave;
+
     void onStart(@Observes StartupEvent ev) throws FileNotFoundException {               
         LOGGER.info("The application is starting...");
         readData("/input.txt");
@@ -31,19 +36,25 @@ public class SolveTasks {
     }
 
     public int solveTask1() {
-        return 0;
+        return cave.lowestRiskPath();
     }
 
     public long solveTask2() {
-        return 0;
+        cave.expandMap();
+        LOGGER.info("Expansion done...");
+        return cave.evaluateRisk();
     }
 
     public void readData(String filename) throws FileNotFoundException {
         try (Scanner s = new Scanner(new InputStreamReader(SolveTasks.class.getResourceAsStream(filename)))) {
            
+            List<String> lines = new ArrayList<>();
+
             while (s.hasNext()) {
-                s.nextLine();
+                lines.add(s.nextLine());
             }
+
+            cave.parseLine(lines);
         }
     }
 }

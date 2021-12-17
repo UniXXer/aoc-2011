@@ -18,11 +18,11 @@ public class TheDayTest {
 
     @Test
     public void testConsumer_puzzle1() throws FileNotFoundException {
-        assertEquals(0, solveTasks.solveTask1());
+        assertEquals(40, solveTasks.solveTask1());
     }
 
     @Test
     public void testConsumer_puzzle2() throws FileNotFoundException {
-        assertEquals(0, solveTasks.solveTask2());
+        assertEquals(315, solveTasks.solveTask2());
     }
 }
